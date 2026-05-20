@@ -1,127 +1,47 @@
-# Subway Surfers 2D
+<div align="center">
 
-> A 2D endless runner built in C++ with SFML, demonstrating object-oriented design through a polymorphic obstacle and power-up hierarchy, a custom templated dynamic array, real-time physics, and a full game loop with persistent high scores.
+# 🚇 Subway Surfers 2D
 
----
+### A 2D endless runner game built in C++ using SFML
 
-## Overview
+*OOP Course Project — demonstrating inheritance, polymorphism, templates, and real-time game architecture*
 
-This is an OOP course project — a playable 2D clone of Subway Surfers written entirely in C++17 using the SFML library. The player runs endlessly across three lanes, dodging obstacles and collecting coins while the game speed progressively increases. The project was designed around core OOP principles: every game entity is a class, obstacles and power-ups use abstract base classes with virtual dispatch, and all game objects are managed through a custom generic container written from scratch.
+<br>
 
-**Window:** 800 × 600 px  
-**Language:** C++17  
-**Library:** SFML 2.x (graphics, audio, window)
+![C++](https://img.shields.io/badge/C++17-00599C?style=flat-square&logo=cplusplus&logoColor=white)
+![SFML](https://img.shields.io/badge/SFML_2.x-8CC445?style=flat-square&logo=sfml&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows-lightgrey?style=flat-square)
+![OOP](https://img.shields.io/badge/Paradigm-Object--Oriented-orange?style=flat-square)
 
----
-
-## Features
-
-- Three-lane endless runner with scrolling background
-- 12-frame sprite animation for the player with physics-based jump (velocity + gravity) and timed slide
-- Four obstacle types: **Train**, **Barrier**, **Cone**, **Fence** — spawned randomly with increasing frequency
-- Four power-ups: **Jetpack** (15s flight, bypasses all obstacles), **Magnet** (10s coin attraction with visible aura), **Shield** (10s, absorbs one collision), **Double Coin** (2× coin multiplier with pulsing gold aura)
-- Score system: 1 point per 0.1s elapsed + 50 points per coin (doubled with Double Coin active)
-- Persistent high score saved to and loaded from `highscore.txt`
-- Full audio: looping background music, coin, collision, and power-up sound effects
-- Complete UI flow: Main Menu → Playing → Pause → Game Over → Leaderboard → Instructions → Back
+</div>
 
 ---
 
-## OOP Design
+## What is this?
 
-### Inheritance Hierarchies
-
-```
-Obstacle  (abstract)
-├── Train
-├── Barrier
-├── Cone
-└── Fence
-
-PowerUp   (base)
-├── JetPackPower
-├── MagnetPower
-├── ShieldPower
-└── DoubleCoinPower
-```
-
-Both `Obstacle` and `PowerUp` declare virtual `update()`, `draw()`, `activate()`, and `deactivate()` methods. `Obstacle::update()` is **pure virtual**, making it an abstract class. Subclasses override these to implement their own behavior and textures.
-
-### Custom Templated Container
-
-`GameList<T>` is a generic, heap-allocated resizable array — written without any STL containers. It is used for all three live object lists:
-
-```cpp
-GameList<Obstacle*> obstacles;   // polymorphic — holds any Obstacle subtype
-GameList<Coin*>     coins;
-GameList<PowerUp*>  powerUps;    // polymorphic — holds any PowerUp subtype
-```
-
-The container doubles its capacity on overflow and supports `add()`, `remove()`, `get()`, `getSize()`, and `clear()`.
-
-### Polymorphism in Practice
-
-Power-up collision resolution uses `dynamic_cast` to identify the concrete type at runtime and call the appropriate activation path on the `Player`:
-
-```cpp
-ShieldPower*  s = dynamic_cast<ShieldPower*>(powerUp);
-JetPackPower* j = dynamic_cast<JetPackPower*>(powerUp);
-MagnetPower*  m = dynamic_cast<MagnetPower*>(powerUp);
-```
-
-### Encapsulation
-
-All class members are `private` or `protected`. State is exposed only through typed getters (e.g., `getShieldTimeLeft()`, `getMagnetStrength()`, `isJetpackActive()`) and narrow setters, keeping each class responsible for its own invariants.
-
-### Composition
-
-`GameEngine` owns `Player`, `TrackManager`, and `ScoreManager` by value. `TrackManager` owns and manages the three `GameList` containers. No global state is used.
+A fully playable 2D clone of Subway Surfers written from scratch in C++. The player sprints across three lanes, vaults over obstacles, collects coins, and grabs power-ups — all while the game gradually speeds up. The project was built as an OOP course assignment to implement real-world use of inheritance hierarchies, abstract classes, runtime polymorphism, and a custom templated data structure.
 
 ---
 
-## Project Structure
+## Gameplay
 
 ```
-├── src/
-│   ├── main.cpp
-│   ├── GameEngine/
-│   │   ├── GameEngine.h
-│   │   └── GameEngine.cpp
-│   ├── Player/
-│   │   ├── Player.h
-│   │   └── Player.cpp
-│   ├── Obstacles/
-│   │   ├── Obstacle.h / .cpp       ← abstract base
-│   │   ├── Train.h / .cpp
-│   │   ├── Barrier.h / .cpp
-│   │   ├── Cone.h / .cpp
-│   │   └── Fence.h / .cpp
-│   ├── PowerUps/
-│   │   ├── PowerUp.h / .cpp        ← base class
-│   │   ├── JetpackPower.h / .cpp
-│   │   ├── MagnetPower.h / .cpp
-│   │   ├── ShieldPower.h / .cpp
-│   │   └── DoubleCoinPower.h / .cpp
-│   ├── Managers/
-│   │   ├── TrackManager.h / .cpp
-│   │   └── ScoreManager.h / .cpp
-│   ├── Coin/
-│   │   ├── Coin.h
-│   │   └── Coin.cpp
-│   └── Utils/
-│       ├── GameList.h              ← custom templated dynamic array
-│       └── GameList.tpp
-├── assets/
-│   ├── textures/
-│   ├── sounds/
-│   └── fonts/
-├── docs/
-│   ├── UML_Diagram.md
-│   ├── Assumptions.md
-│   └── Template_Explanation.md
-├── highscore.txt
-└── README.md
+╔══════════════════════════════════════╗
+║  SCORE: 2450    COINS: 12   SPD:140% ║
+║                                      ║
+║   |        |        |                ║
+║   |   🏃   |        |                ║
+║   |        |  🚧    |  🚂            ║
+║   |        |        |                ║
+║   LANE 0   LANE 1   LANE 2           ║
+╚══════════════════════════════════════╝
 ```
+
+- **3 lanes** — switch with `A / D` or `← / →`
+- **Jump** over tall obstacles with `W / ↑`
+- **Slide** under low barriers with `S / ↓`
+- Game speed ramps from **100% → 300%** over time
+- High score is saved between sessions
 
 ---
 
@@ -133,25 +53,120 @@ All class members are `private` or `protected`. State is exposed only through ty
 | `D` / `→` | Move right |
 | `W` / `↑` | Jump |
 | `S` / `↓` | Slide |
-| `ESC` | Pause / unpause |
+| `ESC` | Pause |
 
 ---
 
-## Building and Running
+## Obstacles
 
-### Prerequisites
+| Obstacle | Behaviour | Dodge How? |
+|---|---|---|
+| **Train** | Full-height blocker | Switch lane |
+| **Barrier** | Low obstacle | Jump over |
+| **Cone** | Low obstacle | Jump over |
+| **Fence** | Low obstacle | Jump or slide |
 
-- g++ with C++17 support
-- SFML 2.x development libraries
+---
 
-**Ubuntu / Debian:**
+## Power-Ups
+
+| Power-Up | Effect | Duration |
+|---|---|---|
+| 🚀 **Jetpack** | Fly above the track — all obstacles ignored | 15 s |
+| 🧲 **Magnet** | Coins within radius are pulled toward you | 10 s |
+| 🛡️ **Shield** | Absorbs the next collision without dying | 10 s |
+| 💰 **Double Coin** | Every coin collected counts as 2 (2× multiplier) | 10 s |
+
+---
+
+## Scoring
+
+| Event | Points |
+|---|---|
+| Surviving | +1 per 0.1 second |
+| Coin collected | +50 |
+| Coin with Double Coin active | +100 |
+
+---
+
+## OOP Architecture
+
+### Class Hierarchy
+
+```
+Obstacle  [abstract]          PowerUp  [base]
+├── Train                     ├── JetPackPower
+├── Barrier                   ├── MagnetPower
+├── Cone                      ├── ShieldPower
+└── Fence                     └── DoubleCoinPower
+```
+
+Every `Obstacle` subclass **must** implement `update()` (pure virtual). Every `PowerUp` subclass overrides `activate()` and `deactivate()`. At runtime the engine holds `GameList<Obstacle*>` and `GameList<PowerUp*>` — it calls `update()` and `draw()` on each without knowing the concrete type.
+
+### Key OOP Concepts Applied
+
+| Concept | Where |
+|---|---|
+| **Abstract class** | `Obstacle` — has pure virtual `update()`, cannot be instantiated |
+| **Inheritance** | `Train`, `Barrier`, `Cone`, `Fence` all extend `Obstacle` |
+| **Polymorphism** | `GameList<Obstacle*>` stores any subtype; virtual dispatch calls the right `update()` |
+| **Encapsulation** | All members `private` / `protected`; exposed only via typed getters |
+| **Templates** | `GameList<T>` — a generic resizable array used for obstacles, coins, and power-ups |
+| **Composition** | `GameEngine` owns `Player`, `TrackManager`, `ScoreManager` by value |
+| **File I/O** | `ScoreManager` reads and writes `highscore.txt` |
+| **dynamic_cast** | Used at power-up pickup to identify concrete type and call player's activation method |
+
+### Custom Data Structure — `GameList<T>`
+
+All game objects are managed through `GameList<T>`, a templated dynamic array written without STL containers. It owns heap memory, doubles capacity on overflow, and supports add, remove-by-index, get, and clear.
+
+```cpp
+GameList<Obstacle*> obstacles;   // polymorphic list — any Obstacle subtype
+GameList<Coin*>     coins;
+GameList<PowerUp*>  powerUps;    // polymorphic list — any PowerUp subtype
+```
+
+---
+
+## Project Structure
+
+```
+├── src/
+│   ├── main.cpp
+│   ├── GameEngine/         ← game loop, input, rendering, collision
+│   ├── Player/             ← movement, jump/slide physics, power-up states
+│   ├── Obstacles/          ← abstract base + Train, Barrier, Cone, Fence
+│   ├── PowerUps/           ← base class + Jetpack, Magnet, Shield, DoubleCoin
+│   ├── Managers/
+│   │   ├── TrackManager    ← spawns and updates all obstacles, coins, power-ups
+│   │   └── ScoreManager    ← score, coin count, multiplier, high score I/O
+│   ├── Coin/
+│   └── Utils/
+│       └── GameList.h / .tpp   ← custom templated dynamic array
+├── assets/
+│   ├── textures/           ← sprites, backgrounds, lane art
+│   ├── sounds/             ← background music, coin, collision, power-up SFX
+│   └── fonts/
+└── highscore.txt
+```
+
+---
+
+## Getting Started
+
+### Requirements
+
+- **g++** with C++17 support
+- **SFML 2.x** development libraries
+
 ```bash
+# Ubuntu / Debian
 sudo apt-get install libsfml-dev
 ```
 
-**Windows:** Download SFML from [sfml-dev.org](https://www.sfml-dev.org/download.php) and configure your compiler to link against it.
+For Windows, download SFML from [sfml-dev.org](https://www.sfml-dev.org/download.php) and link it in your compiler settings.
 
-### Compile
+### Build
 
 ```bash
 g++ -std=c++17 \
@@ -178,25 +193,12 @@ g++ -std=c++17 \
 ### Run
 
 ```bash
+# Must be run from the project root — not from inside src/
 ./game
 ```
-
-> **Important:** Run the executable from the project root directory so that the `assets/` path resolves correctly. Do not run it from inside `src/` or `build/`.
-
----
-
-## Scoring
-
-| Event | Points |
-|---|---|
-| Time survived | 1 pt per 0.1 second |
-| Coin collected | 50 pts |
-| Coin with Double Coin active | 100 pts |
-
-High scores are written to `highscore.txt` and reloaded on the next launch.
 
 ---
 
 ## Disclaimer
 
-This project is for educational purposes only. Subway Surfers is a trademark of Kiloo and SYBO Games. This project is not affiliated with or endorsed by them.
+Subway Surfers is a trademark of Kiloo and SYBO Games. This is an independent student project built for educational purposes and is not affiliated with or endorsed by them.
