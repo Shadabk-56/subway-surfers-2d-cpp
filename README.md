@@ -25,19 +25,7 @@ A fully playable 2D clone of Subway Surfers written from scratch in C++. The pla
 
 ## Gameplay
 
-```
-╔══════════════════════════════════════╗
-║  SCORE: 2450    COINS: 12   SPD:140% ║
-║                                      ║
-║   |        |        |                ║
-║   |   🏃   |        |                ║
-║   |        |  🚧    |  🚂            ║
-║   |        |        |                ║
-║   LANE 0   LANE 1   LANE 2           ║
-╚══════════════════════════════════════╝
-```
-
-- **3 lanes** — switch with `A / D` or `← / →`
+- **3 lanes** — switch left and right with `A / D` or `← / →`
 - **Jump** over tall obstacles with `W / ↑`
 - **Slide** under low barriers with `S / ↓`
 - Game speed ramps from **100% → 300%** over time
@@ -199,6 +187,22 @@ g++ -std=c++17 \
 
 ---
 
+## Author
+
+**Shadab Ahad** 
+FAST National University of Computer and Emerging Sciences (NUCES), Islamabad  
+Object-Oriented Programming — Course Project
+
+---
+
 ## Disclaimer
 
 Subway Surfers is a trademark of Kiloo and SYBO Games. This is an independent student project built for educational purposes and is not affiliated with or endorsed by them.
+
+---
+
+<div align="center">
+
+Made with ❤️ at FAST-NUCES Islamabad
+
+</div>
