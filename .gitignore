@@ -1,0 +1,9 @@
+# Compiled output
+*.o
+*.out
+game
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
